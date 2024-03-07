@@ -1,0 +1,13 @@
+
+// Handle Add Cart in list Product
+export const HANDLE_ADD_CART = 'HANDLE_ADD_CART';
+
+// Handle Add Cart in Product Detail by ID
+export const HANDLE_ADD_CART_PRODUCT_BY_ID = 'HANDLE_ADD_CART_PRODUCT_BY_ID';
+
+// Handle Change Quantity Product in Cart
+export const HANDLE_INCREASE_QUANTITY_PRODUCT_IN_CART = 'HANDLE_INCREASE_QUANTITY_PRODUCT_IN_CART';
+export const HANDLE_DECREASE_QUANTITY_PRODUCT_IN_CART = 'HANDLE_DECREASE_QUANTITY_PRODUCT_IN_CART';
+
+// Handle Remove Product in Cart
+export const HANDLE_REMOVE_PRODUCT_IN_CART = 'HANDLE_REMOVE_PRODUCT_IN_CART';
