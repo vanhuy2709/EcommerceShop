@@ -30,13 +30,9 @@ const UserInfo = () => {
   return (
     <div className="flex-[3]">
 
-      <div className='grid grid-cols-3 gap-6 mb-6'>
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-6'>
         {/* User */}
-        <div className='border col-span-2 rounded-lg flex flex-col items-center py-8'>
-          <img
-            src={avatar}
-            className='w-[120px] h-[120px] object-cover rounded-full mb-2'
-          />
+        <div className='border col-span-1 md:col-span-2 rounded-lg flex flex-col items-center justify-center py-8'>
           <h2 className='text-xl font-medium text-gray-900'>{name}</h2>
           <p className='text-sm text-gray-500 mb-2'>
             {isAdmin ? "Admin" : "Customer"}

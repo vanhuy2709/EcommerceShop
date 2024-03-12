@@ -2,7 +2,7 @@
 const DiscountOrder = () => {
 
   return (
-    <div className="bg-[url('/src/assets/images/shop/discount-image.jfif')] bg-no-repeat bg-cover bg-top pt-5 pb-[180px] rounded-[10px] my-4">
+    <div className="bg-[url('/src/assets/images/shop/discount-image.jfif')] bg-no-repeat bg-cover bg-top pt-5 pb-[180px] rounded-[10px] my-4 hidden lg:block">
       <h2 className="text-center mb-[2px]">
         <span className="text-[#FF8A00] text-[32px] font-semibold leading-[39px]">79%</span>
         <span className="text-gray-900 leading-9 text-[24px]"> Discount</span>

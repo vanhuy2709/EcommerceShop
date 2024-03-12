@@ -31,9 +31,10 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  z-index: -1;
 }
 .home-slider .slick-list {
-  z-index: 0;
+  z-index: -1;
 }
 
 /* Images Carousel */

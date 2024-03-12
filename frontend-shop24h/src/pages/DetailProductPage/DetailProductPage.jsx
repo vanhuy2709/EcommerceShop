@@ -1,15 +1,16 @@
 import { useParams } from "react-router-dom";
 import { IoHomeOutline } from "react-icons/io5";
-import { getProductByIdAction } from '../../store/actions/user/apiRequest.action';
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { Spin } from "antd";
-
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import ImageCarousel from "../../components/DetailProductPage/ImageCarousel";
 import InfoProduct from "../../components/DetailProductPage/InfoProduct";
 import TabsInformation from "../../components/DetailProductPage/TabsInformation";
 import Feature from '../../components/HomePage/Feature';
+
+// Action
+import { getProductByIdAction } from '../../store/actions/user/apiRequest.action';
 
 const DetailProductPage = () => {
   const dispatch = useDispatch();

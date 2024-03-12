@@ -44,7 +44,14 @@ import Categories from './pages/AdminPage/Categories';
 import Users from './pages/AdminPage/Users';
 import Orders from './pages/AdminPage/Orders';
 import CreateProduct from './components/AdminPage/Form/CreateProduct';
+import Inbox from './pages/AdminPage/Inbox';
 import Calendar from './pages/AdminPage/Calendar';
+
+// Import Context
+import { ChatContextProvider } from './context/ChatContext.jsx';
+
+// Import User
+const storageUser = JSON.parse(sessionStorage.getItem('user'))
 
 // Router
 const router = createBrowserRouter([
@@ -154,6 +161,10 @@ const router = createBrowserRouter([
         element: <CreateProduct />
       },
       {
+        path: '/admin/inbox',
+        element: <Inbox />
+      },
+      {
         path: '/admin/calendar',
         element: <Calendar />
       },
@@ -171,7 +182,9 @@ const store = createStore(rootReducer, applyMiddleware(thunk));
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <ChatContextProvider user={storageUser?.user}>
+        <RouterProvider router={router} />
+      </ChatContextProvider>
     </Provider>
   </React.StrictMode>,
 )

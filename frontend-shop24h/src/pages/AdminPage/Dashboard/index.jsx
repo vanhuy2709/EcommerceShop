@@ -147,7 +147,7 @@ const Dashboard = () => {
 
         {/* Top Product Featured */}
         <Box
-          gridColumn="span 5"
+          gridColumn="span 12"
           gridRow="span 4"
           backgroundColor={colors.primary[400]}
           display="flex"

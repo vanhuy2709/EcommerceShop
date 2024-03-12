@@ -11,7 +11,43 @@ import BadgeCart from "../../Cart/BadgeCart";
 import { Button, Popover } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 
+// Appbar
+// import AppBar from '@mui/material/AppBar';
+// import Box from '@mui/material/Box';
+// import Toolbar from '@mui/material/Toolbar';
+// import IconButton from '@mui/material/IconButton';
+// import Typography from '@mui/material/Typography';
+// import Menu from '@mui/material/Menu';
+// import MenuIcon from '@mui/icons-material/Menu';
+// import Container from '@mui/material/Container';
+// import Avatar from '@mui/material/Avatar';
+// // import Button from '@mui/material/Button';
+// import Tooltip from '@mui/material/Tooltip';
+// import MenuItem from '@mui/material/MenuItem';
+// import AdbIcon from '@mui/icons-material/Adb';
+
+// const pages = ['Products', 'Pricing', 'Blog'];
+// const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
 const Navbar = () => {
+  // Appbar
+  // const [anchorElNav, setAnchorElNav] = useState(null);
+  // const [anchorElUser, setAnchorElUser] = useState(null);
+  // const handleOpenNavMenu = (event) => {
+  //   setAnchorElNav(event.currentTarget);
+  // };
+  // const handleOpenUserMenu = (event) => {
+  //   setAnchorElUser(event.currentTarget);
+  // };
+
+  // const handleCloseNavMenu = () => {
+  //   setAnchorElNav(null);
+  // };
+
+  // const handleCloseUserMenu = () => {
+  //   setAnchorElUser(null);
+  // };
+
   const storageUser = JSON.parse(sessionStorage.getItem('user'));
 
   const navigate = useNavigate();
@@ -64,7 +100,7 @@ const Navbar = () => {
                       <Button danger onClick={handleLogout}>Logout</Button>
                     </div>
                   }
-                  placement="bottom"
+                  placement="bottomRight"
                   open={open}
                   onOpenChange={handleOpenChange}
                 >
@@ -111,7 +147,7 @@ const Navbar = () => {
       </nav>
 
       {/* Menu Navbar */}
-      <nav className='bg-[#333333] md:py-4'>
+      <nav className='bg-[#333333] px-4 md:py-4'>
         <div className='max-w-screen-xl mx-auto flex justify-between items-center relative md:px-4'>
           <button
             className='flex items-center justify-center px-2 py-2 md:hidden'
@@ -120,7 +156,7 @@ const Navbar = () => {
             <i className="fa-solid fa-bars text-white"></i>
           </button>
 
-          <ul className='hidden md:flex items-center gap-8 bg-[#333333]'>
+          <ul className='hidden md:flex items-center gap-8 bg-[#333333] z-10'>
             {listMenu.map(menu => (
               <li key={menu.id}>
                 <NavLink to={menu.path} className='text-gray-400 hover:text-white text-[14px] font-medium leading-[21px]'>{menu.name}</NavLink>
@@ -128,12 +164,17 @@ const Navbar = () => {
             ))}
           </ul>
 
-          {/* Menu */}
           {isOpen ?
             (<ul className='absolute top-9 w-full rounded py-2 px-2 md:relative md:flex md:items-center md:top-0 md:gap-8 bg-[#333333] md:w-max'>
               {listMenu.map(menu => (
-                <li key={menu.id}>
-                  <NavLink to={menu.path} className='text-gray-400 hover:text-white text-[14px] font-medium leading-[21px]'>{menu.name}</NavLink>
+                <li key={menu.id} className="my-2">
+                  <NavLink
+                    to={menu.path}
+                    className='text-gray-400 hover:text-white text-[14px] font-medium leading-[21px]'
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {menu.name}
+                  </NavLink>
                 </li>
               ))}
             </ul>) : (<></>)}
@@ -145,6 +186,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+
     </>
   );
 };

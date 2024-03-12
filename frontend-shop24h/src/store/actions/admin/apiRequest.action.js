@@ -312,7 +312,7 @@ export const createProductAction = (product, token) => {
       let response = await result.json();
 
       // Update Images Product by ID
-      dispatch(updateImagesProductById(response._id, product.images, token));
+      await dispatch(updateImagesProductById(response._id, product.images, token));
 
       notification.success({
         message: 'Success',

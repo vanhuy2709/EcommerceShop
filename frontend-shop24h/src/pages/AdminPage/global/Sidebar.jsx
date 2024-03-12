@@ -16,7 +16,8 @@ import {
   LocalShippingOutlined,
   CategoryOutlined,
   EditNoteOutlined,
-  CreateNewFolderOutlined
+  CreateNewFolderOutlined,
+  Chat
 } from "@mui/icons-material";
 import adminAvatar from '../../../assets/images/admin/huy-cafe-1.jpg';
 import "react-pro-sidebar/dist/css/styles.css";

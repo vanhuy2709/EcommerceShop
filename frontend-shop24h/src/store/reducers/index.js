@@ -9,6 +9,7 @@ import cartReducer from "./user/cart";
 import authReducer from "./user/auth";
 import orderReducer from "./user/order";
 import userReducer from './user/user';
+import commentReducer from "./user/comment";
 
 // Admin Reducer
 import productAdminReducer from "./admin/product";
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   authReducer,
   orderReducer,
   userReducer,
+  commentReducer,
   productAdminReducer,
   categoryAdminReducer,
   modalAdminReducer,

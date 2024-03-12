@@ -60,7 +60,7 @@ const Shop = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 mb-20">
-      <div className='flex gap-6'>
+      <div className='flex gap-6 flex-col lg:flex-row'>
         {/* Filter */}
         <div className='flex-1'>
 
@@ -126,7 +126,7 @@ const Shop = () => {
               </div>)
               :
               (<>
-                <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-10'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2 sm:gap-6 mb-10'>
                   {
                     productList && productList.data.length > 0 &&
                     productList.data.map(product => (

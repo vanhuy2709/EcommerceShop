@@ -265,6 +265,7 @@ const ModalUpdate = () => {
           <Input
             type="number"
             placeholder="Rating"
+            disabled
             value={rating}
             onChange={(e) => handleChangeProductRating(e)}
           />
@@ -275,6 +276,7 @@ const ModalUpdate = () => {
           <Input
             type="number"
             placeholder="Num Reviews"
+            disabled
             value={numReviews}
             onChange={(e) => handleChangeProductReviews(e)}
           />

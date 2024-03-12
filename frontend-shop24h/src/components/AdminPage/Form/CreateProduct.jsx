@@ -39,9 +39,9 @@ const initialValuesProduct = {
   promotionPrice: '',
   category: '',
   countInStock: '',
-  rating: '',
-  numReviews: '',
-  isFeatured: '',
+  // rating: '',
+  // numReviews: '',
+  isFeatured: false,
 }
 
 // Product Schema
@@ -53,8 +53,8 @@ const productSchema = yup.object().shape({
   promotionPrice: yup.number().required("Promotion Price is required"),
   category: yup.string().required("Category is required"),
   countInStock: yup.number().required("Count in Stock is required"),
-  rating: yup.number().required("Rating is required"),
-  numReviews: yup.number().required("Num Reviews is required"),
+  // rating: yup.number().required("Rating is required"),
+  // numReviews: yup.number().required("Num Reviews is required"),
   isFeatured: yup.boolean().required("Featured is required"),
 })
 
@@ -264,7 +264,7 @@ const CreateProduct = () => {
                 helperText={touched.countInStock && errors.countInStock}
                 sx={{ gridColumn: "span 1" }}
               />
-              <TextField
+              {/* <TextField
                 fullWidth
                 variant="filled"
                 type="number"
@@ -289,7 +289,7 @@ const CreateProduct = () => {
                 error={!!touched.numReviews && !!errors.numReviews}
                 helperText={touched.numReviews && errors.numReviews}
                 sx={{ gridColumn: "span 1" }}
-              />
+              /> */}
 
               <FormControl
                 sx={{ gridColumn: "span 1" }}

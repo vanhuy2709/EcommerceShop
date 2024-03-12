@@ -1,7 +1,30 @@
 import { Tabs } from 'antd';
+import { Pagination } from '@mui/material';
 import '../../styles/tabs.css';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import UserFeedback from './UserFeedback';
+import CreateComment from './CreateComment';
+
+// Action
+import { getCommentsByProductAction } from '../../store/actions/user/apiRequest.action';
 
 const TabsInformation = ({ product }) => {
+  const dispatch = useDispatch();
+  const { listCommentProduct } = useSelector(reduxData => reduxData.commentReducer);
+  const { pending, listComment, isError } = listCommentProduct;
+
+  // Pagination
+  const [page, setPage] = useState(1);
+  const limit = 3;
+
+  console.log('check list comment: ', listComment);
+
+  if (product) {
+    useEffect(() => {
+      dispatch(getCommentsByProductAction(product?._id, page, limit))
+    }, [page])
+  }
 
   const items = [
     {
@@ -33,6 +56,38 @@ const TabsInformation = ({ product }) => {
             }
           </div>
         </div>
+      ),
+    },
+    {
+      key: '3',
+      label: (
+        <p className='font-[Poppins] text-[1rem] font-medium'>
+          Customer Feedback
+        </p>
+      ),
+      children: (
+        <>
+          {/* <CreateComment product={product} page={page} limit={limit} /> */}
+          {
+            listComment?.data && listComment?.data.length > 0 &&
+            listComment?.data.map(comment => (
+              <UserFeedback
+                key={comment._id}
+                comment={comment}
+                product={product}
+                page={page}
+                limit={limit}
+              />
+            ))
+          }
+          <div className='flex justify-center my-4'>
+            <Pagination
+              count={Math.ceil(listComment && listComment.count / limit)}
+              page={page}
+              onChange={(e, newValue) => setPage(newValue)}
+            />
+          </div>
+        </>
       ),
     },
   ];

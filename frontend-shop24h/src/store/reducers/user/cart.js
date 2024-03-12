@@ -69,7 +69,11 @@ const cartReducer = (state = initState, action) => {
       )
 
       if (indexItemInc >= 0) {
-        state.listCart[indexItemInc].quantity += 1;
+        if (state.listCart[indexItemInc].countInStock > state.listCart[indexItemInc].quantity) {
+          state.listCart[indexItemInc].quantity += 1;
+        } else {
+          state.listCart[indexItemInc].quantity = state.listCart[indexItemInc].countInStock;
+        }
       }
 
       localStorage.setItem('listCart', JSON.stringify(state.listCart));

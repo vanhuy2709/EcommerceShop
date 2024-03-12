@@ -22,7 +22,7 @@ import {
   // Delete Product by ID
   DELETE_PRODUCT_BY_ID_ERROR,
   DELETE_PRODUCT_BY_ID_PENDING,
-  DELETE_PRODUCT_BY_ID_SUCCESS
+  DELETE_PRODUCT_BY_ID_SUCCESS,
 } from '../../constants/admin/product.constant';
 
 import {
@@ -65,10 +65,18 @@ import {
 } from '../../constants/admin/user.constant';
 
 import {
+  // Handle Change Status Order
   HANDLE_CHANGE_STATUS_ORDER,
+
+  // Update Status Order by ID
   UPDATE_STATUS_ORDER_BY_ID_ERROR,
   UPDATE_STATUS_ORDER_BY_ID_PENDING,
-  UPDATE_STATUS_ORDER_BY_ID_SUCCESS
+  UPDATE_STATUS_ORDER_BY_ID_SUCCESS,
+
+  // Delete Order by ID
+  DELETE_ORDER_BY_ID_ERROR,
+  DELETE_ORDER_BY_ID_PENDING,
+  DELETE_ORDER_BY_ID_SUCCESS
 } from '../../constants/admin/order.constant';
 
 import {
@@ -117,13 +125,13 @@ const initState = {
     images: '',
     image: '',
     brand: '',
-    buyPrice: '',
-    promotionPrice: '',
+    buyPrice: 0,
+    promotionPrice: 0,
     category: '',
-    countInStock: '',
+    countInStock: 0,
     rating: '',
     numReviews: '',
-    isFeatured: '',
+    isFeatured: false,
   },
 
   // Delete Product
@@ -462,6 +470,14 @@ const modalAdminReducer = (state = initState, action) => {
       state.deleteModalOrder.id = '';
       break;
 
+    // Delete Order by ID
+    case DELETE_ORDER_BY_ID_ERROR:
+      break;
+    case DELETE_ORDER_BY_ID_PENDING:
+      break;
+    case DELETE_ORDER_BY_ID_SUCCESS:
+      state.deleteModalOrder.open = false;
+      break;
 
     default:
       break;

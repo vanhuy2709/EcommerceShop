@@ -16,6 +16,8 @@ const CardProduct = ({ product }) => {
     dispatch(handleAddCartAction(product));
   }
 
+  // console.log('check product: ', product);
+
   return (
     <div
       className='bg-white rounded-lg overflow-hidden border hover:border hover:border-[#00B207] hover:shadow-xl duration-200'
@@ -49,18 +51,14 @@ const CardProduct = ({ product }) => {
           )
         }
 
-        <img
-          src={product.image}
-          alt='product-image'
-          className='p-[5px] w-full h-full lg:h-[300px] object-cover'
-        />
+        <img src={product.image} alt='product-image' className='p-[5px] w-full h-full lg:h-[300px] object-contain' />
       </div>
 
       {/* Info Product */}
-      <div className='flex items-center justify-between py-4 px-5 cursor-pointer'>
+      <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between py-4 px-5 cursor-pointer'>
         <div>
           <h4
-            className='text-[#2B572E] leading-6 mb-[2px] cursor-pointer'
+            className='text-[#2B572E] text-[1rem] leading-6 mb-[2px] cursor-pointer'
             onClick={() => handleViewDetail()}
           >
             {product.name}
@@ -69,11 +67,12 @@ const CardProduct = ({ product }) => {
             <span className='text-[#002603] text-[18px] font-medium leading-[27px]'>
               ${product.promotionPrice}
             </span>
-            <span className='text-[#7A997C] line-through leading-6'>
+            <span className='text-[#7A997C] text-[1rem] line-through leading-6'>
               ${product.buyPrice}
             </span>
           </p>
           <Rate
+            // style={{ fontSize: '14px' }}
             allowHalf
             value={product.rating}
             disabled
@@ -81,10 +80,12 @@ const CardProduct = ({ product }) => {
         </div>
 
         {/* Add Cart */}
-        <i
-          className="fa-solid fa-bag-shopping bg-[#DAE5DA] p-[13px] rounded-full text-[#002602] cursor-pointer text-[24px] hover:bg-[#00B207] hover:text-white duration-200"
-          onClick={() => handleAddCart(product)}
-        ></i>
+        <div className='text-right'>
+          <i
+            className="fa-solid fa-bag-shopping bg-[#DAE5DA] p-[13px] rounded-full text-[#002602] cursor-pointer text-[24px] hover:bg-[#00B207] hover:text-white duration-200 w-fit"
+            onClick={() => handleAddCart(product)}
+          ></i>
+        </div>
       </div>
     </div>
   );

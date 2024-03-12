@@ -114,7 +114,11 @@ const productReducer = (state = initState, action) => {
 
     // Handle Change Quantity Product by ID
     case HANDLE_INCREASE_QUANTITY_PRODUCT_BY_ID:
-      state.productById.product.quantity += 1;
+      if (state.productById.product.quantity < state.productById.product.countInStock) {
+        state.productById.product.quantity += 1;
+      } else {
+        state.productById.product.quantity = state.productById.product.countInStock;
+      }
       break;
     case HANDLE_DECREASE_QUANTITY_PRODUCT_BY_ID:
       if (state.productById.product.quantity > 1) {
@@ -124,7 +128,11 @@ const productReducer = (state = initState, action) => {
       }
       break;
     case HANDLE_CHANGE_QUANTITY_PRODUCT_BY_ID:
-      state.productById.product.quantity = action.payload;
+      if (action.payload <= state.productById.product.countInStock) {
+        state.productById.product.quantity = action.payload;
+      } else {
+        state.productById.product.quantity = state.productById.product.countInStock;
+      }
       break;
 
     default:

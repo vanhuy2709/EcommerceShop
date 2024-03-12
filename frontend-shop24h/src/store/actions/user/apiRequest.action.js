@@ -76,6 +76,27 @@ import {
   UPDATE_PASSWORD_USER_BY_ID_PENDING,
   UPDATE_PASSWORD_USER_BY_ID_SUCCESS,
 } from '../../constants/user/user.constant';
+import {
+  // Fetch List Comment User
+  FETCH_COMMENTS_PRODUCT_BY_ID_ERROR,
+  FETCH_COMMENTS_PRODUCT_BY_ID_PENDING,
+  FETCH_COMMENTS_PRODUCT_BY_ID_SUCCESS,
+
+  // Create Comment
+  CREATE_COMMENT_ERROR,
+  CREATE_COMMENT_PENDING,
+  CREATE_COMMENT_SUCCESS,
+
+  // Delete Comment by ID
+  DELETE_COMMENT_ERROR,
+  DELETE_COMMENT_PENDING,
+  DELETE_COMMENT_SUCCESS,
+
+  // Update Comment by ID
+  UPDATE_COMMENT_ERROR,
+  UPDATE_COMMENT_PENDING,
+  UPDATE_COMMENT_SUCCESS
+} from '../../constants/user/comment.constant';
 
 // URL Link
 const API_URL_CATEGORY = 'http://localhost:8080/api/categories';
@@ -83,6 +104,7 @@ const API_URL_PRODUCT = 'http://localhost:8080/api/products';
 const API_URL_AUTH = 'http://localhost:8080/api/auth';
 const API_URL_ORDER = 'http://localhost:8080/api/orders';
 const API_URL_USER = 'http://localhost:8080/api/users';
+const API_URL_COMMENT = 'http://localhost:8080/api/comments';
 
 // Api Request Function
 // Get all Category
@@ -588,6 +610,145 @@ export const updatePasswordUserByIdAction = (id, newPasswordUser, token) => {
 
       return dispatch({
         type: UPDATE_PASSWORD_USER_BY_ID_ERROR,
+        error
+      })
+    }
+  }
+}
+
+// Get list Comment by Product ID
+export const getCommentsByProductAction = (productId, page, limit) => {
+  return async (dispatch) => {
+
+    try {
+      // Pending
+      await dispatch({
+        type: FETCH_COMMENTS_PRODUCT_BY_ID_PENDING
+      })
+
+      // Success
+      const param = new URLSearchParams({
+        page,
+        limit
+      })
+      let response = await axios
+        .get(API_URL_COMMENT + '/get-product/' + productId + "?" + param.toString());
+      return dispatch({
+        type: FETCH_COMMENTS_PRODUCT_BY_ID_SUCCESS,
+        payload: response.data
+      })
+    } catch (error) {
+
+      // Error
+      return dispatch({
+        type: FETCH_COMMENTS_PRODUCT_BY_ID_ERROR,
+        error
+      })
+    }
+  }
+}
+
+// Create Comment
+export const createCommentAction = (newComment, page, limit) => {
+
+  return async (dispatch) => {
+
+    try {
+      // Pending
+      await dispatch({
+        type: CREATE_COMMENT_PENDING
+      })
+
+      // Success
+      const headers = {
+        'Content-Type': 'application/json'
+      }
+      let response = await axios.post(API_URL_COMMENT, newComment, { headers });
+
+      await dispatch(getCommentsByProductAction(newComment.product, page, limit));
+
+      return dispatch({
+        type: CREATE_COMMENT_SUCCESS,
+        payload: response.data
+      })
+
+    } catch (error) {
+
+      // Error
+      return dispatch({
+        type: CREATE_COMMENT_ERROR,
+        error
+      })
+    }
+
+  }
+}
+
+// Delete Comment
+export const deleteCommentByIdAction = (commentId, productId, page, limit) => {
+
+  return async (dispatch) => {
+
+    try {
+      // Pending
+      await dispatch({
+        type: DELETE_COMMENT_PENDING
+      })
+
+      // Success
+      let response = await axios.delete(API_URL_COMMENT + '/' + commentId);
+
+      await dispatch(getCommentsByProductAction(productId, page, limit));
+
+      notification.success({
+        message: 'Delete Comment Success'
+      })
+
+      return dispatch({
+        type: DELETE_COMMENT_SUCCESS,
+        payload: response.data
+      })
+
+
+    } catch (error) {
+
+      // Error
+      return dispatch({
+        type: DELETE_COMMENT_ERROR,
+        error
+      })
+    }
+  }
+}
+
+// Update Comment
+export const updateCommentByIdAction = (commentId, newComment, productId, page, limit) => {
+
+  return async (dispatch) => {
+
+    try {
+      // Pending
+      await dispatch({
+        type: UPDATE_COMMENT_PENDING
+      })
+
+      // Success
+      const headers = {
+        'Content-Type': 'application/json'
+      }
+      let response = await axios.put(API_URL_COMMENT + '/' + commentId, newComment, { headers });
+
+      await dispatch(getCommentsByProductAction(productId, page, limit));
+
+      return dispatch({
+        type: UPDATE_COMMENT_SUCCESS,
+        payload: response.data
+      })
+    } catch (error) {
+
+      // Error
+      return dispatch({
+        type: UPDATE_COMMENT_ERROR,
         error
       })
     }
