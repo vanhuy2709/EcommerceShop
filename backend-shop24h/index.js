@@ -14,6 +14,9 @@ const categoryRouter = require('./app/routers/category.router');
 const userRouter = require('./app/routers/user.router');
 const authRouter = require('./app/routers/auth.router');
 const orderRouter = require('./app/routers/order.router');
+const commentRouter = require('./app/routers/comment.router');
+const chatRouter = require('./app/routers/chat.router');
+const messageRouter = require('./app/routers/message.router');
 
 // App Initial
 const app = express();
@@ -42,12 +45,17 @@ mongoose
     console.log(err);
   })
 
+// Send SMS
+
 // Routers
 app.use('/api/products', productsRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/orders', orderRouter);
+app.use('/api/comments', commentRouter);
+app.use('/api/chats', chatRouter);
+app.use('/api/messages', messageRouter);
 
 // Start server
 app.listen(port, () => {

@@ -47,7 +47,7 @@ const productSchema = new mongoose.Schema({
   },
   rating: {
     type: Number,
-    default: 0
+    default: 1,
   },
   numReviews: {
     type: Number,
@@ -60,7 +60,7 @@ const productSchema = new mongoose.Schema({
   dateCreated: {
     type: Date,
     default: Date.now()
-  }
+  },
 })
 
 module.exports = mongoose.model('Product', productSchema);

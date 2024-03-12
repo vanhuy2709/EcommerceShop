@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const orderModel = require('../models/order.model');
 const orderItemModel = require('../models/orderItem.model');
+const productController = require('../controllers/product.controller');
 
 // Create Order
 const createOrder = async (req, res) => {
@@ -27,6 +28,21 @@ const createOrder = async (req, res) => {
     return res.status(400).json('Phone is required');
   }
 
+  // Validate Quantity of Product (if quantity > product.countInStock => false)
+  const checkValid = Promise.all(orderItems.map(async order => {
+    return await productController.validateUpdateQuantityProductById(order.product, order.quantity);
+  }))
+  const checkValidResolved = await checkValid;
+  if (checkValidResolved.includes(false)) {
+    return res.status(400).json('Cant create order');
+  }
+
+  // If true => update countInStock Product
+  orderItems.map(async order => {
+    await productController.updateQuantityProductById(order.product, order.quantity);
+  })
+
+  // Create orderItems
   const orderItemsIds = Promise.all(orderItems.map(async item => {
 
     const newOrderItem = {
@@ -82,7 +98,6 @@ const createOrder = async (req, res) => {
       error
     })
   }
-
 }
 
 // Get all Order
@@ -256,8 +271,15 @@ const deleteOrderById = async (req, res) => {
       return res.status(404).json('Order ID is not found')
     }
 
+    // If Cancel Order => Back quantity for product
     order.orderItems.map(async orderItem => {
-      await orderItemModel.findByIdAndDelete(orderItem)
+      const checkOrderItem = await orderItemModel.findById(orderItem);
+      await productController.backQuantityProductById(checkOrderItem.product, checkOrderItem.quantity);
+    })
+
+    // If Cancel Order => Delete Order Items
+    order.orderItems.map(async orderItem => {
+      await orderItemModel.findByIdAndDelete(orderItem);
     })
 
     return res.status(200).json({

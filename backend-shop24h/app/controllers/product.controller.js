@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const productModel = require('../models/product.model');
 const categoryModel = require('../models/category.model');
+const commentModel = require('../models/comment.model');
 
 // Get all Product (Filter, Pagination, Search)
 const getAllProduct = async (req, res) => {
@@ -56,6 +57,20 @@ const getAllProduct = async (req, res) => {
     // .select('name image buyPrice promotionPrice rating isFeatured')
     .populate('category')
 
+  const products = await Promise.all(productList.map(async item => {
+    const commentList = await commentModel.find({ product: item._id });
+
+    const averageRating = commentList.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.rating;
+    }, 0)
+
+    return {
+      ...item._doc,
+      rating: averageRating ? Math.ceil(averageRating / commentList.length) : 1,
+      numReviews: commentList.length
+    };
+  }))
+
   const count = await productModel
     .find(filter)
     .select('name image buyPrice promotionPrice rating isFeatured')
@@ -68,7 +83,9 @@ const getAllProduct = async (req, res) => {
       total: totalProduct,
       count: count.length,
       limit: limit,
-      data: productList
+      // data: productList,
+      data: products,
+      // test: products
     });
 
   } catch (error) {
@@ -89,12 +106,24 @@ const getProductById = async (req, res) => {
 
   try {
     const product = await productModel.findById(productId).populate('category');
+    const commentList = await commentModel.find({ product: productId });
+
+    const averageRating = commentList.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.rating
+    }, 0)
 
     if (!product) {
       return res.status(404).json('Product ID is not found')
     }
 
-    return res.status(200).json(product);
+    // return res.status(200).json(product);
+    return res.status(200).json(
+      {
+        ...product._doc,
+        rating: Math.ceil(averageRating / commentList.length),
+        numReviews: commentList.length
+      }
+    );
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -111,8 +140,22 @@ const getProductIsFeatured = async (req, res) => {
     .select('name image buyPrice promotionPrice countInStock rating isFeatured')
     .populate('category');
 
+  const products = await Promise.all(productList.map(async item => {
+    const commentList = await commentModel.find({ product: item._id });
+
+    const averageRating = commentList.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.rating;
+    }, 0)
+
+    return {
+      ...item._doc,
+      rating: averageRating ? Math.ceil(averageRating / commentList.length) : 1,
+      // numReviews: commentList.length
+    };
+  }))
+
   try {
-    return res.status(200).json(productList);
+    return res.status(200).json(products);
 
   } catch (error) {
     return res.status(500).json({
@@ -131,9 +174,22 @@ const getProductIsMaxPrice = async (req, res) => {
     const listPriceofProduct = productList.map(item => item.promotionPrice);
     const maxPrice = Math.max(...listPriceofProduct);
 
-    const product = await productModel.findOne({ promotionPrice: maxPrice })
+    const product = await productModel.findOne({ promotionPrice: maxPrice });
 
-    return res.status(200).json(product);
+    const commentList = await commentModel.find({ product: product._id });
+
+    const averageRating = commentList.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.rating;
+    }, 0);
+
+
+    return res.status(200).json(
+      {
+        ...product._doc,
+        rating: averageRating ? Math.ceil(averageRating / commentList.length) : 1,
+        numReviews: commentList.length
+      }
+    );
   } catch (error) {
     return res.status(500).json({
       message: 'Internal Server Error',
@@ -151,9 +207,21 @@ const getProductIsMinPrice = async (req, res) => {
     const listPriceofProduct = productList.map(item => item.promotionPrice);
     const minPrice = Math.min(...listPriceofProduct);
 
-    const product = await productModel.findOne({ promotionPrice: minPrice })
+    const product = await productModel.findOne({ promotionPrice: minPrice });
 
-    return res.status(200).json(product);
+    const commentList = await commentModel.find({ product: product._id });
+
+    const averageRating = commentList.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.rating;
+    }, 0);
+
+    return res.status(200).json(
+      {
+        ...product._doc,
+        rating: averageRating ? Math.ceil(averageRating / commentList.length) : 1,
+        numReviews: commentList.length
+      }
+    );
   } catch (error) {
     return res.status(500).json({
       message: 'Internal Server Error',
@@ -174,9 +242,7 @@ const createProduct = async (req, res) => {
     promotionPrice,
     category,
     countInStock,
-    rating,
-    numReviews,
-    isFeatured } = req.body;
+  } = req.body;
 
   // Validate Upload File
   const file = req.file;
@@ -219,9 +285,6 @@ const createProduct = async (req, res) => {
     promotionPrice,
     category,
     countInStock,
-    rating,
-    numReviews,
-    isFeatured
   }
 
   try {
@@ -250,8 +313,6 @@ const updateProductById = async (req, res) => {
     promotionPrice,
     category,
     countInStock,
-    rating,
-    numReviews,
     isFeatured } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(productId)) {
@@ -290,8 +351,6 @@ const updateProductById = async (req, res) => {
     promotionPrice,
     category,
     countInStock,
-    rating,
-    numReviews,
     isFeatured
   }
 
@@ -386,6 +445,98 @@ const deleteProductById = async (req, res) => {
   }
 }
 
+// Update Quantity by ID (Count in Stock - quantity)
+const updateQuantityProductById = async (productId, quantity) => {
+
+  if (!mongoose.Types.ObjectId.isValid(productId)) {
+    return res.status(400).json('Product ID is not valid')
+  }
+
+  const productExist = await productModel.findById({ _id: productId });
+
+  if (!productExist) return res.status(404).json('Product ID is not found');
+
+  if (productExist.countInStock - quantity < 0) {
+    return res.status(400).json('Failed');
+  }
+
+  const newProduct = {
+    countInStock: productExist.countInStock - quantity,
+  }
+
+  try {
+    const product = await productModel.findByIdAndUpdate(
+      productId,
+      newProduct,
+      { new: true }
+    )
+
+    if (!product) {
+      return res.status(404).json('Product ID is not found');
+    }
+
+    // return res.status(200).json(product);
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error
+    })
+  }
+}
+
+// Update Quantity by ID (Count in Stock + quantity)
+const backQuantityProductById = async (productId, quantity) => {
+
+  if (!mongoose.Types.ObjectId.isValid(productId)) {
+    return false;
+  }
+
+  const productExist = await productModel.findById({ _id: productId });
+
+  if (!productExist) return false;
+
+  const newProduct = {
+    countInStock: productExist.countInStock + quantity,
+  }
+
+  try {
+    const product = await productModel.findByIdAndUpdate(
+      productId,
+      newProduct,
+      { new: true }
+    )
+
+    if (!product) {
+      return false;
+    }
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error
+    })
+  }
+}
+
+// Validate Update Quantity
+const validateUpdateQuantityProductById = async (productId, quantity) => {
+
+  if (!mongoose.Types.ObjectId.isValid(productId)) {
+    return res.status(400).json('Product ID is not valid')
+  }
+
+  const productExist = await productModel.findById({ _id: productId });
+
+  if (!productExist) return res.status(404).json('Product ID is not found');
+
+  if (productExist.countInStock - quantity < 0) {
+    return false;
+  }
+
+  return true;
+}
+
 module.exports = {
   getAllProduct,
   getProductById,
@@ -395,5 +546,8 @@ module.exports = {
   createProduct,
   updateProductById,
   updateProductGalleryImagesById,
+  updateQuantityProductById,
+  backQuantityProductById,
+  validateUpdateQuantityProductById,
   deleteProductById
 }
