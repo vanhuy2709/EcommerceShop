@@ -13,7 +13,7 @@ function authJwt() {
       { url: /\/api\/products(.*)/, method: ['GET', 'OPTIONS'] },
       { url: /\/api\/categories(.*)/, method: ['GET', 'OPTIONS'] },
       { url: /\/api\/users(.*)/, method: ['GET', 'OPTIONS', 'PUT'] },
-      { url: /\/api\/orders(.*)/, method: ['GET', 'OPTIONS', 'POST'] },
+      { url: /\/api\/orders(.*)/, method: ['GET', 'OPTIONS', 'POST', 'DELETE'] },
       /\/api\/messages(.*)/,
       /\/api\/chats(.*)/,
       /\/api\/comments(.*)/,

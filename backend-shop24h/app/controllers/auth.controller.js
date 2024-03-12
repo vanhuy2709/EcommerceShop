@@ -65,6 +65,15 @@ const registerUser = async (req, res) => {
     return res.status(400).json('Phone is required');
   }
 
+  const userExistEmail = await userModel.findOne({ email });
+  const userExistPhone = await userModel.findOne({ phone });
+  if (userExistEmail) {
+    return res.status(400).json('Email have been exist');
+  }
+  if (userExistPhone) {
+    return res.status(400).json('Phone number have been exist');
+  }
+
   const newUser = {
     name,
     email,

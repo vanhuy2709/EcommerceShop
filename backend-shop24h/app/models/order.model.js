@@ -30,6 +30,9 @@ const orderSchema = new mongoose.Schema({
   totalPrice: {
     type: Number
   },
+  note: {
+    type: String,
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

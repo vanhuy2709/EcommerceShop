@@ -12,6 +12,7 @@ const createOrder = async (req, res) => {
     country,
     phone,
     status,
+    note,
     user,
   } = req.body;
 
@@ -84,6 +85,7 @@ const createOrder = async (req, res) => {
     phone,
     status,
     totalPrice: totalPrice.toFixed(2),
+    note,
     user
   }
 
