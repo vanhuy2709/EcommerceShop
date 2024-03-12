@@ -5,6 +5,9 @@ import {
   HANDLE_CHANGE_CITY,
   HANDLE_CHANGE_COUNTRY,
   HANDLE_CHANGE_PHONE,
+  HANDLE_CHANGE_NOTE,
+  HANDLE_CHANGE_DISTRICT,
+  HANDLE_CHANGE_PROVINCE,
 
   // Create Order
   CREATE_ORDER_ERROR,
@@ -29,7 +32,10 @@ const initState = {
     address: '',
     country: '',
     city: '',
-    phone: ''
+    phone: '',
+    note: '',
+    province: '',
+    district: '',
   },
 
   // Create Order
@@ -70,6 +76,15 @@ const orderReducer = (state = initState, action) => {
       break;
     case HANDLE_CHANGE_PHONE:
       state.orderUser.phone = action.payload;
+      break;
+    case HANDLE_CHANGE_NOTE:
+      state.orderUser.note = action.payload;
+      break;
+    case HANDLE_CHANGE_PROVINCE:
+      state.orderUser.province = action.payload;
+      break;
+    case HANDLE_CHANGE_DISTRICT:
+      state.orderUser.district = action.payload;
       break;
 
 

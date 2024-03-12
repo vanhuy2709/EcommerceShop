@@ -10,10 +10,21 @@ import { message, notification } from 'antd';
 const OrderSummary = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { orderUser } = useSelector(reduxData => reduxData.orderReducer);
-  const { address, country, city, phone } = orderUser;
-  const { listCart, subTotal } = useSelector(reduxData => reduxData.cartReducer);
 
+  // Get Order User
+  const { orderUser } = useSelector(reduxData => reduxData.orderReducer);
+
+  // Get info of Order User
+  const { address, country, city, phone, note, province, district } = orderUser;
+
+  // Get list Provinces & Districts
+  const { provinces, districts } = useSelector(reduxData => reduxData.provinceReducer);
+  const { listProvince } = provinces;
+  const { listDistrict } = districts;
+
+  // Get listCart & Subtotal
+  const { listCart, subTotal } = useSelector(reduxData => reduxData.cartReducer);
+  // Get User
   const storageUser = JSON.parse(sessionStorage.getItem('user'));
 
   const orderItems = listCart.map(item => {
@@ -23,19 +34,21 @@ const OrderSummary = () => {
     }
   })
 
+  // Fetch Provinces
+
   const handleSubmitOrder = () => {
 
     const order = {
       orderItems: orderItems,
       shippingAddress: address.trim(),
-      city: city.trim(),
-      country: country.trim(),
+      city: listProvince.find(item => item.province_id === province)?.province_name,
+      country: listDistrict.find(item => item.district_id === district)?.district_name,
       phone: phone.trim(),
+      note: note.trim(),
       user: storageUser.user._id
     }
 
-    // validate Email
-
+    // Validate Phone
     if (!validatePhone(order.phone)) {
       notification.error({
         message: 'Error',
@@ -45,8 +58,6 @@ const OrderSummary = () => {
     }
 
     dispatch(createOrderAction(order, storageUser.token, navigate));
-
-    console.log(storageUser.token);
   }
 
   return (

@@ -97,6 +97,17 @@ import {
   UPDATE_COMMENT_PENDING,
   UPDATE_COMMENT_SUCCESS
 } from '../../constants/user/comment.constant';
+import {
+  // Fetch List Provinces
+  FETCH_PROVINCES_ERROR,
+  FETCH_PROVINCES_PENDING,
+  FETCH_PROVINCES_SUCCESS,
+
+  // Fetch Districts by Province ID
+  FETCH_DISTRICT_BY_PROVINCE_ID_ERROR,
+  FETCH_DISTRICT_BY_PROVINCE_ID_PENDING,
+  FETCH_DISTRICT_BY_PROVINCE_ID_SUCCESS,
+} from '../../constants/user/province.constant';
 
 // URL Link
 const API_URL_CATEGORY = 'http://localhost:8080/api/categories';
@@ -105,6 +116,8 @@ const API_URL_AUTH = 'http://localhost:8080/api/auth';
 const API_URL_ORDER = 'http://localhost:8080/api/orders';
 const API_URL_USER = 'http://localhost:8080/api/users';
 const API_URL_COMMENT = 'http://localhost:8080/api/comments';
+const API_URL_PROVINCE = 'https://vapi.vnappmob.com/api/province';
+const API_URL_DISTRICT = 'https://vapi.vnappmob.com/api/province/district';
 
 // Api Request Function
 // Get all Category
@@ -421,7 +434,7 @@ export const createOrderAction = (order, token, navigate) => {
 
       localStorage.removeItem('listCart');
 
-      navigate('/');
+      navigate(`/checkout/result/${response.data._id}`);
       window.location.reload();
 
       return dispatch({
@@ -749,6 +762,62 @@ export const updateCommentByIdAction = (commentId, newComment, productId, page, 
       // Error
       return dispatch({
         type: UPDATE_COMMENT_ERROR,
+        error
+      })
+    }
+  }
+}
+
+// Fetch List Province
+export const getAllProvincesAction = () => {
+
+  return async (dispatch) => {
+
+    try {
+      // Pending
+      await dispatch({
+        type: FETCH_PROVINCES_PENDING
+      })
+
+      // Success
+      let response = await axios.get(API_URL_PROVINCE);
+      return dispatch({
+        type: FETCH_PROVINCES_SUCCESS,
+        payload: response.data
+      })
+
+    } catch (error) {
+      // Error
+      return dispatch({
+        type: FETCH_PROVINCES_ERROR,
+        error
+      })
+    }
+  }
+}
+
+// Fetch District by Province ID
+export const getAllDistrictByProvinceIdAction = (provinceId) => {
+
+  return async (dispatch) => {
+
+    try {
+      // Pending
+      await dispatch({
+        type: FETCH_DISTRICT_BY_PROVINCE_ID_PENDING
+      })
+
+      // Success
+      let response = await axios.get(API_URL_DISTRICT + '/' + provinceId);
+      return dispatch({
+        type: FETCH_DISTRICT_BY_PROVINCE_ID_SUCCESS,
+        payload: response.data
+      })
+
+    } catch (error) {
+      // Error
+      return dispatch({
+        type: FETCH_DISTRICT_BY_PROVINCE_ID_ERROR,
         error
       })
     }

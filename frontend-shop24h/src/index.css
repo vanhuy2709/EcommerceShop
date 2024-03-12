@@ -58,7 +58,7 @@ input[type=number] {
 }
 
 /* All users */
-.all-users {
+/* .all-users {
   display: flex;
   margin-bottom: 1rem;
 }
@@ -71,10 +71,10 @@ input[type=number] {
   border-radius: 10px;
   margin-right: 0.5rem;
   position: relative;
-}
+} */
 
 /* User Card */
-.user-card {
+/* .user-card {
   color: white;
   position: relative;
   border-bottom: 1px solid rgb(100, 100, 100);
@@ -105,10 +105,10 @@ input[type=number] {
   top: -3px;
   right: -3px;
   z-index: 2;
-}
+} */
 
 /* Chat Box */
-.chat-box {
+/* .chat-box {
   max-height: calc(100vh - 10rem);
   overflow-y: auto;
   background: rgb(25, 25, 25);
@@ -117,20 +117,20 @@ input[type=number] {
 
 .messages-box {
   height: 85vh;
-}
+} */
 
 /* Chat Header */
-.chat-header {
+/* .chat-header {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0.75rem;
   color: white;
   background: rgb(30, 30, 30);
-}
+} */
 
 /* Messages */
-.messages {
+/* .messages {
   max-height: calc(100vh - 15rem);
   overflow-y: auto;
   padding: 0 2rem;
@@ -153,10 +153,10 @@ input[type=number] {
   font-size: 12px;
   align-self: flex-end;
   font-weight: 400;
-}
+} */
 
 /* Chat Input  */
-.chat-input {
+/* .chat-input {
   width: 100%;
   background: rgb(30, 30, 30);
   padding: 1rem;
@@ -168,10 +168,10 @@ input[type=number] {
   height: 40px;
   width: 40px;
   border-radius: 50%;
-}
+} */
 
 /* Notification */
-.notifications {
+/* .notifications {
   position: relative;
 }
 
@@ -259,4 +259,4 @@ input[type=number] {
   border-radius: 50%;
   align-items: center;
   justify-content: center;
-}
+} */

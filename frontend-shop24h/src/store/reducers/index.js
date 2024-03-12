@@ -10,6 +10,7 @@ import authReducer from "./user/auth";
 import orderReducer from "./user/order";
 import userReducer from './user/user';
 import commentReducer from "./user/comment";
+import provinceReducer from "./user/province";
 
 // Admin Reducer
 import productAdminReducer from "./admin/product";
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   orderReducer,
   userReducer,
   commentReducer,
+  provinceReducer,
   productAdminReducer,
   categoryAdminReducer,
   modalAdminReducer,

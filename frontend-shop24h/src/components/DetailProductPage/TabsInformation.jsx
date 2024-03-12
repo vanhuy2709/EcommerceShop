@@ -18,8 +18,6 @@ const TabsInformation = ({ product }) => {
   const [page, setPage] = useState(1);
   const limit = 3;
 
-  console.log('check list comment: ', listComment);
-
   if (product) {
     useEffect(() => {
       dispatch(getCommentsByProductAction(product?._id, page, limit))

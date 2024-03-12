@@ -21,9 +21,9 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [country, setCountry] = useState('');
+  // const [address, setAddress] = useState('');
+  // const [city, setCity] = useState('');
+  // const [country, setCountry] = useState('');
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -33,9 +33,9 @@ const RegisterPage = () => {
       email: email.trim(),
       password: password.trim(),
       phone: phone.trim(),
-      address: address.trim(),
-      city: city.trim(),
-      country: country.trim(),
+      // address: address.trim(),
+      // city: city.trim(),
+      // country: country.trim(),
     }
 
     if (!validateEmail(newUser.email)) {
@@ -101,7 +101,7 @@ const RegisterPage = () => {
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
-          <div>
+          {/* <div>
             <input
               type="text"
               placeholder="Address"
@@ -109,8 +109,8 @@ const RegisterPage = () => {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
-          </div>
-          <div className="flex gap-4">
+          </div> */}
+          {/* <div className="flex gap-4">
             <input
               type="text"
               placeholder="City"
@@ -125,7 +125,7 @@ const RegisterPage = () => {
               value={country}
               onChange={(e) => setCountry(e.target.value)}
             />
-          </div>
+          </div> */}
 
           <button className="text-white bg-[#00B207] text-[14px] font-semibold leading-4 py-[14px] rounded-full">Create Account</button>
 

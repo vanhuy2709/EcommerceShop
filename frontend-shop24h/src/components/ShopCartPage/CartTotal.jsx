@@ -1,15 +1,22 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { notification } from 'antd';
 
 const CartTotal = () => {
   const storageUser = JSON.parse(sessionStorage.getItem('user'));
 
   const navigate = useNavigate();
-  const { subTotal } = useSelector(reduxData => reduxData.cartReducer);
+  const { subTotal, listCart } = useSelector(reduxData => reduxData.cartReducer);
 
   const handleNavigateCheckoutPage = () => {
     if (storageUser) {
-      navigate('/checkout');
+      if (listCart.length === 0) {
+        return notification.error({
+          message: "You don't have any product to buy"
+        })
+      } else {
+        navigate('/checkout');
+      }
     } else {
       navigate('/login');
     }
